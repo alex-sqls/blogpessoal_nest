@@ -12,18 +12,18 @@ import { DeleteResult, Like, Repository } from "typeorm";
 export class PostagemService {
 
     constructor (
-        //os decorator sao aplicados encima de aslgo
+        //os decorator sao aplicados em cima de algo
         //injecao de depedencias
         @InjectRepository(Postagem)
-        private postagemRepository: Repository<Postagem> // muda o tipo dela, para repository e tem como modelo postagem
-    //o que e uma repository, ela e uma classe da propria typeorm - A classe repository tem os metodos de acesso aos bancos de dados
+        private postagemRepository: Repository<Postagem> // muda o tipo dela para repository e tem como modelo postagem
+        //o que e uma repository? ela e uma classe da propria typeorm - A classe repository tem os metodos de acesso aos bancos de dados
         // da poderes a postagemrepository a metodos de tb
 
     ) { }
 
     //buscar as informacoes da minha tabela do banco
-    //a postagem representa minha tabela
-    //findAll representa tudo. um objeto em formato de array
+    //a postagem representa minha tb
+    //findAll representa tudo - um objeto em formato de array
     async findAll(): Promise<Postagem[]> {
         return await this.postagemRepository.find();
         //find representa o select
@@ -31,7 +31,7 @@ export class PostagemService {
 
     async finById(id : number) : Promise<Postagem> {
         
-        //recebee a omfprmacao do banco
+        //recebe a confirmacao do banco
         // select com where de id
         const postagem = await this.postagemRepository.findOne({
             where: {
@@ -41,8 +41,10 @@ export class PostagemService {
 
         // se retorno for null
         if(!postagem) throw new HttpException('postagem nao encontrada', HttpStatus.NOT_FOUND)
+        //se nao for passado um id de busca
+        if(id == null) throw new HttpException('item nao encontrado', HttpStatus.NOT_FOUND)
         
-        // se for direfente de nulo, roda isso
+        // se for direfente de nulo, ou o id tiver sido passado roda isso
         return postagem;
     }
 

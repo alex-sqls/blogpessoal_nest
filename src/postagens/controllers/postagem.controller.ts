@@ -3,10 +3,8 @@ import { PostagemService } from "../service/postagem.service";
 import { Postagem } from "../entities/postagem.entity";
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Put} from "@nestjs/common"
 
-// responsavel pelas requisicoes
-//controle de acesso
+// responsavel pelas requisicoes e controle de acesso
 // service valida isso
-//nao cria regra na controller
 
 @Controller("/postagens")
 export class PostagemController{

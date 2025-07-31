@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Postagem } from "../entities/postagem.entity";
 import { DeleteResult, Like, Repository } from "typeorm";
+import { TemaService } from "src/tema/services/tema.service";
 
 // Service acessa a repository que acessa o banco. (Conversa com o banco de dados através da Repository)
 
@@ -15,9 +16,10 @@ export class PostagemService {
         //os decorator sao aplicados em cima de algo
         //injecao de depedencias
         @InjectRepository(Postagem)
-        private postagemRepository: Repository<Postagem> // muda o tipo dela para repository e tem como modelo postagem
+        private postagemRepository: Repository<Postagem>, // muda o tipo dela para repository e tem como modelo postagem
         //o que e uma repository? ela e uma classe da propria typeorm - A classe repository tem os metodos de acesso aos bancos de dados
         // da poderes a postagemrepository a metodos de tb
+        private temaService: TemaService
 
     ) { }
 
@@ -25,8 +27,12 @@ export class PostagemService {
     //a postagem representa minha tb
     //findAll representa tudo - um objeto em formato de array
     async findAll(): Promise<Postagem[]> {
-        return await this.postagemRepository.find();
+        return await this.postagemRepository.find({
         //find representa o select
+        relations:{
+                tema: true
+            },
+    });
     }
 
     async finById(id : number) : Promise<Postagem> {
@@ -36,13 +42,16 @@ export class PostagemService {
         const postagem = await this.postagemRepository.findOne({
             where: {
                 id
+            },
+            relations:{
+                tema: true
             }
         })
 
         // se retorno for null
         if(!postagem) throw new HttpException('postagem nao encontrada', HttpStatus.NOT_FOUND)
         //se nao for passado um id de busca
-        if(id == null) throw new HttpException('item nao encontrado', HttpStatus.NOT_FOUND)
+        //if(id == null) throw new HttpException('item nao encontrado', HttpStatus.NOT_FOUND)
         
         // se for direfente de nulo, ou o id tiver sido passado roda isso
         return postagem;
@@ -54,11 +63,17 @@ export class PostagemService {
                 //ILike: case sensitive
                 //like: nao case sensitive
                 titulo: Like(`%${titulo}%`)
+            },
+            relations:{
+                tema: true
             }
         })
     }
 
     async create(postagem: Postagem) : Promise<Postagem>{
+
+        await this.temaService.findById(postagem.tema.id)
+
         return await this.postagemRepository.save(postagem)
     }
 
@@ -66,6 +81,8 @@ export class PostagemService {
 
         //busca por id
         await this.finById(postagem.id)
+
+        await this.temaService.findById(postagem.tema.id)
 
         //vai salvar por cima do objeto encontrado .save()
         return await this.postagemRepository.save(postagem)

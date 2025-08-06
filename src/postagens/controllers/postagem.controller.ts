@@ -24,7 +24,7 @@ export class PostagemController{
     //pipe valida e transforma - transforma em um numero inteiro
     // e depois jogou no retorno
     findById(@Param('id', ParseIntPipe) id: number): Promise<Postagem> {
-        return this.postagemService.finById(id);
+        return this.postagemService.findById(id);
     }
 
     //busca like por titulo como criado na regra de service

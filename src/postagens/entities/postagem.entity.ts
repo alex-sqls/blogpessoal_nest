@@ -1,13 +1,15 @@
 import { IsNotEmpty } from "class-validator";
 import { Tema } from "src/tema/entities/tema.entity";
+import { Usuario } from "src/usuario/entities/usuario.entity";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 //transforma classe em tabela
 //postagem recebe tb_postagens - que o nome do meu database criado
 @Entity({name: "tb_postagens"})
+//exporta a classe postagem
 export class Postagem{
 
-    //declara e chave primaria e que auto gerador
+    //declara e chave primaria e que e auto gerador
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -22,9 +24,17 @@ export class Postagem{
     @UpdateDateColumn()
     data: Date;
 
+    //dentro de postagem cria um coluna tema id cuja a chave estrangeira e tema_id
     @ManyToOne(() => Tema, (tema) => tema.postagem, {
         onDelete: "CASCADE"
     })
     @JoinColumn({ name: 'tema_id'})
-    tema: Tema
+    tema: Tema;
+    
+    //relacao com a tabela usuario
+    @ManyToOne(() => Usuario, (usuario) => usuario.postagem, {
+        onDelete: "CASCADE",
+    })
+    @JoinColumn({ name: 'usuario_id'})
+    usuario: Usuario;
 }

@@ -2,7 +2,8 @@
 import { PostagemService } from "../service/postagem.service";
 import { Postagem } from "../entities/postagem.entity";
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Put, UseGuards} from "@nestjs/common"
-import { JwtAuthGuard } from "src/auth/guard/jwt-auth.guard";
+import { JwtAuthGuard } from "../../auth/guard/jwt-auth.guard";
+
 
 // responsavel pelas requisicoes e controle de acesso
 // service valida isso

@@ -1,7 +1,8 @@
 import { IsNotEmpty } from "class-validator";
-import { Tema } from "src/tema/entities/tema.entity";
-import { Usuario } from "src/usuario/entities/usuario.entity";
+
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Tema } from "../../tema/entities/tema.entity";
+import { Usuario } from "../../usuario/entities/usuario.entity";
 
 //transforma classe em tabela
 //postagem recebe tb_postagens - que o nome do meu database criado

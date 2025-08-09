@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Postagem } from './postagens/entities/postagem.entity';
 import { PostagemModule } from './postagens/postagem.module';

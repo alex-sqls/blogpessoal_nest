@@ -3,11 +3,13 @@ import { PostagemService } from "../service/postagem.service";
 import { Postagem } from "../entities/postagem.entity";
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Put, UseGuards} from "@nestjs/common"
 import { JwtAuthGuard } from "../../auth/guard/jwt-auth.guard";
+import { ApiTags } from "@nestjs/swagger";
 
 
 // responsavel pelas requisicoes e controle de acesso
 // service valida isso
 
+@ApiTags('Postagem')
 @UseGuards(JwtAuthGuard)
 @Controller("/postagens")
 export class PostagemController{

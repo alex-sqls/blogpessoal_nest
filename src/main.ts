@@ -1,9 +1,20 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  const config = new DocumentBuilder() //responsavel por construir o swagger
+  .setTitle('Blog Pessoal') //titulo do projetp
+  .setDescription('Projeto Blog Pessoal')
+  .setContact("Alex SQLs","https://github.com/alex-sqls/blogpessoal_nest","alex-sql@outlook.com")
+  .setVersion('1.0')
+  .addBearerAuth() //autenticacao com token jwt
+  .build(); //constroi a pagina swagger com todos os parametros acima
+  const document = SwaggerModule.createDocument(app, config); //resposnsavel pela a execucao e criar o modulo swagger 2 parametros, aplicacao e o swagger(config)
+  SwaggerModule.setup('/swagger', app, document);
 
   process.env.TZ = '-03:00';
 

@@ -1,6 +1,7 @@
 import { IsEmail, IsNotEmpty, MinLength } from "class-validator"
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm"
 import { Postagem } from "../../postagens/entities/postagem.entity"
+import { ApiProperty } from "@nestjs/swagger"
 
 @Entity({name: "tb_usuarios"})
 export class Usuario {
@@ -9,24 +10,29 @@ export class Usuario {
     id: number
 
     @IsNotEmpty()
-    @Column({length: 255, nullable: false}) 
+    @Column({length: 255, nullable: false})
+     @ApiProperty()  
     nome: string
 
     //so aceita formato de email
     @IsEmail()
     @IsNotEmpty()
     @Column({length: 255, nullable: false })
+    @ApiProperty({example: "email@email.com.br"}) 
     usuario: string
 
     //o minimo de caracteres na senha sera 8
     @MinLength(8)
     @IsNotEmpty()
-    @Column({length: 255, nullable: false }) 
+    @Column({length: 255, nullable: false })
+    @ApiProperty()  
     senha: string
 
-    @Column({length: 5000 }) 
+    @Column({length: 5000 })
+    @ApiProperty()  
     foto: string
 
+    @ApiProperty() 
     @OneToMany(() => Postagem, (postagem) => postagem.usuario)
     postagem: Postagem[]
 
